@@ -27,12 +27,14 @@
 
     <!-- 登录按钮 -->
     <div class="loginBox">
-      <van-button type="info" class="loginBtn">登录</van-button>
+      <van-button type="info" class="loginBtn" @click="submit">登录</van-button>
     </div>
   </div>
 </template>
 
 <script>
+
+import { Login } from '@/api/user'
 export default {
   name: 'login',
   data () {
@@ -40,6 +42,16 @@ export default {
       user: {
         mobile: '13911111111',
         code: '246810'
+      }
+    }
+  },
+  methods: {
+    async submit () {
+      try {
+        const res = await Login(this.user)
+        console.log(res)
+      } catch (err) {
+        console.log(err)
       }
     }
   }
