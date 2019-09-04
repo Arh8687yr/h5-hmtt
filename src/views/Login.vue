@@ -49,10 +49,13 @@ export default {
     //  1. 登录
     async submit () {
       try {
-        // const res = await Login(this.user)
-        // 2. 登录成功存储登录状态
+        // 2. 登录成功存储登录状态(vuex 状态共享 + 本地 永久存储)
         // 此时的data就是数据返回的data(携带token的数据)
         const data = await Login(this.user)
+
+        // 提交mutation 并将token保存到vuex
+        // 参数一为注册的mutation事件，参数二为要提交的载荷
+        this.$store.commit('changeToken', data)
 
         // 登录成功跳转到首页并提示登录状态
         this.$toast.success('登录成功')
