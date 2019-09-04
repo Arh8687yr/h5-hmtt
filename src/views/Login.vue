@@ -66,8 +66,8 @@ export default {
         this.changeToken(data)
 
         // 登录成功跳转到首页并提示登录状态
+        // this.$router.push('/')
         this.$toast.success('登录成功')
-        this.$router.push('/')
         console.log(data)
       } catch (err) {
         this.$toast.fail('登录失败')
