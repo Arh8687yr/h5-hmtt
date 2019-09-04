@@ -46,12 +46,20 @@ export default {
     }
   },
   methods: {
+    //  1. 登录
     async submit () {
       try {
-        const res = await Login(this.user)
-        console.log(res)
+        // const res = await Login(this.user)
+        // 2. 登录成功存储登录状态
+        // 此时的data就是数据返回的data(携带token的数据)
+        const data = await Login(this.user)
+
+        // 登录成功跳转到首页并提示登录状态
+        this.$toast.success('登录成功')
+        // this.$router.push('/')
+        console.log(data)
       } catch (err) {
-        console.log(err)
+        this.$toast.fail('登录失败')
       }
     }
   }
