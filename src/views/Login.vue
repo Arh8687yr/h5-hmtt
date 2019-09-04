@@ -35,6 +35,7 @@
 <script>
 
 import { Login } from '@/api/user'
+import { mapMutations } from '@/store'
 export default {
   name: 'login',
   data () {
@@ -46,6 +47,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['changeToken']),
     //  1. 登录
     async submit () {
       try {
@@ -55,7 +57,9 @@ export default {
 
         // 提交mutation 并将token保存到vuex
         // 参数一为注册的mutation事件，参数二为要提交的载荷
-        this.$store.commit('changeToken', data)
+        // this.$store.commit('changeToken', data)
+        // 简化mutation提交，采用mapMutation
+        this.changeToken(data)
 
         // 登录成功跳转到首页并提示登录状态
         this.$toast.success('登录成功')
