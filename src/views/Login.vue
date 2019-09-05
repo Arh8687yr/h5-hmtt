@@ -5,11 +5,10 @@
     <!-- 用户名密码输入框 -->
     <van-cell-group>
       <van-field
-        v-validate="'required'"
-        name="mobile"
+        v-validate="{ required: true, regex: /^1([38]\d|4[5-9]|5[0-35-9]|6[56]|7[0-8]|9[189])\d{8}$/ }" name="regex"
         class="inputBtn"
         v-model="user.mobile"
-        :error-message="errors.first('mobile')"
+        :error-message="errors.first('regex')"
         placeholder="请输入手机号"
         left-icon="phone"
       />
