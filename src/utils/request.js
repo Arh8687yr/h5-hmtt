@@ -1,5 +1,6 @@
 import axios from 'axios'
 import JSONbig from 'json-bigint'
+import store from '@/store'
 
 const instance = axios.create({
   baseURL: 'http://ttapi.research.itcast.cn'
@@ -21,6 +22,12 @@ instance.defaults.transformResponse = [function (data) {
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
+
+  // 在请求发送之前判断仓库中是否携带token 如果有 就将token 保存到 headers 中
+  // 如果没有，则不做处理
+  if (store.state.token) {
+    config.headers.Authorization = `Bearer ${store.state.token.token}`
+  }
   return config
 }, function (error) {
   // 对请求错误做些什么
