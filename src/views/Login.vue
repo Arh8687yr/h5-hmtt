@@ -2,19 +2,23 @@
   <div class="login">
     <!-- navbar导航栏 -->
     <van-nav-bar title="登录" />
-
     <!-- 用户名密码输入框 -->
     <van-cell-group>
       <van-field
+        v-validate="'required'"
+        name="mobile"
         class="inputBtn"
         v-model="user.mobile"
+        :error-message="errors.first('mobile')"
         placeholder="请输入手机号"
         left-icon="phone"
-        clearable
       />
     </van-cell-group>
     <van-cell-group>
       <van-field
+        v-validate="'required|digits:6'"
+        name="code"
+        :error-message="errors.first('code')"
         class="inputBtn"
         v-model="user.code"
         type="password"
@@ -33,7 +37,6 @@
 </template>
 
 <script>
-
 import { Login } from '@/api/user'
 import { mapMutations } from 'vuex'
 export default {
@@ -47,7 +50,6 @@ export default {
     }
   },
   methods: {
-
     ...mapMutations(['changeToken']),
 
     //  1. 登录
@@ -81,9 +83,7 @@ export default {
 @import "../style/nav-bar";
 .login {
   .inputBtn {
-    height: 50px;
-    line-height: 50px;
-    padding: 0 16px;
+    padding: 10px 16px;
     color: rgb(138, 138, 138);
     .codeBtn {
       border-radius: 16px;
