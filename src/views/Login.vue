@@ -5,10 +5,10 @@
     <!-- 用户名密码输入框 -->
     <van-cell-group>
       <van-field
-        v-validate="{ required: true, regex: /^1([38]\d|4[5-9]|5[0-35-9]|6[56]|7[0-8]|9[189])\d{8}$/ }" name="regex"
+        v-validate="{ required: true, regex: /^1([38]\d|4[5-9]|5[0-35-9]|6[56]|7[0-8]|9[189])\d{8}$/ }" name="mobile"
         class="inputBtn"
         v-model="user.mobile"
-        :error-message="errors.first('regex')"
+        :error-message="errors.first('mobile')"
         placeholder="请输入手机号"
         left-icon="phone"
       />
@@ -73,6 +73,21 @@ export default {
         this.$toast.fail('登录失败')
       }
     }
+  },
+  created () {
+    const dict = {
+      custom: {
+        mobile: {
+          required: '请输入您的手机号码',
+          regex: '您输入的手机号码格式不正确！'
+        },
+        code: {
+          required: '请输入您的验证码',
+          digits: '您输入的验证码格式不正确！'
+        }
+      }
+    }
+    this.$validator.localize('custom', dict)
   }
 }
 </script>
