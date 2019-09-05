@@ -31,7 +31,7 @@
 
     <!-- 登录按钮 -->
     <div class="loginBox">
-      <van-button type="info" class="loginBtn" @click="submit">登录</van-button>
+      <van-button type="info" class="loginBtn" @click="submit" loading-text="正在登录..." :loading = "loading">登录</van-button>
     </div>
   </div>
 </template>
@@ -46,7 +46,8 @@ export default {
       user: {
         mobile: '13911111111',
         code: '246810'
-      }
+      },
+      loading: false
     }
   },
   methods: {
@@ -54,16 +55,18 @@ export default {
 
     //  1. 登录
     async submit () {
+      this.loading = true
       try {
         // 先去判断validate校验是否成功 如果成功 发送请求验证 如果不成功 则返回
         const valid = await this.$validator.validate()
         // console.log(valid)
         if (!valid) {
+          this.loading = false
           return
         }
+
         // 2. 登录成功存储登录状态(vuex 状态共享 + 本地 永久存储)
         const data = await Login(this.user)
-
         // 提交mutation 并将token保存到vuex
         this.changeToken(data)
 
@@ -73,6 +76,7 @@ export default {
       } catch (err) {
         this.$toast.fail('登录失败')
       }
+      this.loading = false
     }
   },
   created () {
