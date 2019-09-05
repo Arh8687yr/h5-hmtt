@@ -5,7 +5,8 @@
     <!-- 用户名密码输入框 -->
     <van-cell-group>
       <van-field
-        v-validate="{ required: true, regex: /^1([38]\d|4[5-9]|5[0-35-9]|6[56]|7[0-8]|9[189])\d{8}$/ }" name="mobile"
+        v-validate="{ required: true, regex: /^1([38]\d|4[5-9]|5[0-35-9]|6[56]|7[0-8]|9[189])\d{8}$/ }"
+        name="mobile"
         class="inputBtn"
         v-model="user.mobile"
         :error-message="errors.first('mobile')"
@@ -54,20 +55,20 @@ export default {
     //  1. 登录
     async submit () {
       try {
+        // 先去判断validate校验是否成功 如果成功 发送请求验证 如果不成功 则返回
+        const valid = await this.$validator.validate()
+        // console.log(valid)
+        if (!valid) {
+          return
+        }
         // 2. 登录成功存储登录状态(vuex 状态共享 + 本地 永久存储)
-        // 此时的data就是数据返回的data(携带token的数据)
         const data = await Login(this.user)
 
         // 提交mutation 并将token保存到vuex
-        // 参数一为注册的mutation事件，参数二为要提交的载荷
-
-        // this.$store.commit('changeToken', data)
-
-        // 简化mutation提交，采用mapMutation
         this.changeToken(data)
 
         // 登录成功跳转到首页并提示登录状态
-        // this.$router.push('/')
+        this.$router.push('/')
         this.$toast.success('登录成功')
       } catch (err) {
         this.$toast.fail('登录失败')
