@@ -4,24 +4,35 @@
     <van-nav-bar title="黑马头条" />
     <!-- tab标签区域 -->
     <van-tabs v-model="active">
-      <van-tab v-for="index in lists" :title="'标签 ' + index" :key="index">
+      <van-tab v-for="channelItem in channels" :title="channelItem.name" :key="channelItem.id">
         <!-- 文章列表区域 -->
-        <van-list>
-          <van-cell v-for="item in lists" :key="item" :title="item" />
-        </van-list>
+        <!-- <van-list>
+          <van-cell v-for="item in channels" :key="item" :title="item" />
+        </van-list> -->
       </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
+import { getChannel } from '@/api/channel'
 export default {
   name: 'home',
   data () {
     return {
-      lists: [1, 2, 3, 4, 5, 6, 7, 8],
+      channels: [],
       active: 0
     }
+  },
+  methods: {
+    // 获取频道列表
+    async getChannels () {
+      const data = await getChannel()
+      this.channels = data.channels
+    }
+  },
+  created () {
+    this.getChannels()
   }
 }
 </script>
