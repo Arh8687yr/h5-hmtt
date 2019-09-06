@@ -10,6 +10,8 @@ import zhCN from 'vee-validate/dist/locale/zh_CN'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 
+import '../src/style/nav-bar.css'
+
 // 使用vant
 Vue.use(Vant)
 Vue.use(VeeValidate, {

@@ -98,7 +98,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../style/nav-bar";
 .login {
   .inputBtn {
     padding: 10px 16px;
