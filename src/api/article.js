@@ -10,7 +10,7 @@ export const getArticles = ({
   timestamp,
   with_top
 }) => {
-  request.get('/app/v1_1/articles', {
+  return request.get('/app/v1_1/articles', {
     params: {
       channel_id,
       timestamp,
