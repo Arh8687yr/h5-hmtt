@@ -48,6 +48,7 @@ export default {
     }
   },
   created () {
+    // 获取频道列表
     this.getChannels()
   }
 }
