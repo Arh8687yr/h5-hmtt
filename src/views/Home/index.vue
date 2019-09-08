@@ -7,20 +7,47 @@
       <van-tab v-for="channel in channels" :title="channel.name" :key="channel.id">
         <!-- 文章列表区域 -->
         <!-- 下拉刷新文章列表 -->
-        <van-pull-refresh v-model="currentChannel.isLoading" :success-text="successText" @refresh="onRefresh">
-        <van-list
-          v-model="currentChannel.loading"
-          :finished="currentChannel.finished"
-          finished-text="没有更多了"
-          @load="onLoad"
+        <van-pull-refresh
+          v-model="currentChannel.isLoading"
+          :success-text="successText"
+          @refresh="onRefresh"
         >
-          <van-cell
-            v-for="item in currentChannel.articles"
-            :key="item.art_id.toString()"
-            :title="item.title"
-            :label="item.aut_name"
-          />
-        </van-list>
+          <van-list
+            v-model="currentChannel.loading"
+            :finished="currentChannel.finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+          >
+            <van-cell
+              v-for="article in currentChannel.articles"
+              :key="article.art_id.toString()"
+              :title="article.title"
+            >
+              <div slot="label">
+                <!-- grid 显示封面
+                  article.cover.type   0 没有图片   1 1个图片 3 3个图片
+                -->
+                <van-grid v-if="article.cover.type" :border="false" :column-num="3">
+                  <van-grid-item v-for="(img, index) in article.cover.images" :key="img + index">
+                    <van-image lazy-load height="80" :src="img">
+                      <!-- 图片的加载提示 -->
+                      <template v-slot:loading>
+                        <van-loading type="spinner" size="20" />
+                      </template>
+                      <!-- 自定义加载失败提示 -->
+                      <template v-slot:error>加载失败</template>
+                    </van-image>
+                  </van-grid-item>
+                </van-grid>
+                <p>
+                  <span>{{ article.aut_name }}</span>&nbsp;
+                  <span>{{ article.comm_count }}评论</span>&nbsp;
+                  <span>{{ article.pubdate }}</span>&nbsp;
+                  <van-icon name="cross" class="close" />
+                </p>
+              </div>
+            </van-cell>
+          </van-list>
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
@@ -31,6 +58,13 @@
 import { getChannel } from '@/api/channel'
 import { getItem, setItem } from '@/utils/localStorage'
 import { getArticles } from '@/api/article'
+
+import Vue from 'vue'
+import { Lazyload } from 'vant'
+
+// options 为可选参数，无则不传
+Vue.use(Lazyload)
+
 export default {
   name: 'home',
   data () {
@@ -101,7 +135,6 @@ export default {
       })
       this.currentChannel.articles.unshift(...data.results)
       this.currentChannel.isLoading = false
-      console.log(data.results.length)
       this.successText = `此次加载共刷新${data.results.length}条数据`
     }
   },
