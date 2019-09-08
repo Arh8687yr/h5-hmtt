@@ -1,15 +1,27 @@
 <template>
   <div>
     <!-- 顶部标题区域 -->
-    <van-nav-bar fixed="" title="黑马头条" />
+    <van-nav-bar fixed title="黑马头条" />
     <!-- tab标签区域 -->
     <van-tabs v-model="activeIndex" animated>
       <van-tab v-for="channel in channels" :title="channel.name" :key="channel.id">
         <!-- 文章列表区域 -->
-        <van-list v-model="currentChannel.loading" :finished="currentChannel.finished" finished-text="没有更多了" @load="onLoad">
-          <van-cell v-for="item in currentChannel.articles" :key="item.art_id.toString()" :title="item.title" />
-
+        <!-- 下拉刷新文章列表 -->
+        <van-pull-refresh v-model="currentChannel.isLoading" :success-text="successText" @refresh="onRefresh">
+        <van-list
+          v-model="currentChannel.loading"
+          :finished="currentChannel.finished"
+          finished-text="没有更多了"
+          @load="onLoad"
+        >
+          <van-cell
+            v-for="item in currentChannel.articles"
+            :key="item.art_id.toString()"
+            :title="item.title"
+            :label="item.aut_name"
+          />
         </van-list>
+        </van-pull-refresh>
       </van-tab>
     </van-tabs>
   </div>
@@ -26,7 +38,9 @@ export default {
       // 频道
       channels: [],
       // 展示当前频道索引
-      activeIndex: 0
+      activeIndex: 0,
+      // 下拉刷新完毕之后成功提示
+      successText: ''
     }
   },
   methods: {
@@ -48,15 +62,16 @@ export default {
           setItem('channels', channels)
         }
       }
-      channels.forEach((channel) => {
+      channels.forEach(channel => {
         channel.timestamp = null
         channel.articles = []
         channel.loading = false
         channel.finished = false
+        channel.isLoading = false
       })
       this.channels = channels
     },
-    // list组件事件
+    // list组件获取该频道文章
     async onLoad () {
       // 获取当前频道
       // const currentChannel = this.channels[this.activeIndex]
@@ -76,11 +91,22 @@ export default {
       if (data.results.length === 0) {
         this.currentChannel.finished = true
       }
+    },
+    // 下拉刷新最新的新闻并显示在列表最前
+    async onRefresh () {
+      const data = await getArticles({
+        channel_id: this.currentChannel.id,
+        timestamp: Date.now(),
+        with_top: 1
+      })
+      this.currentChannel.articles.unshift(...data.results)
+      this.currentChannel.isLoading = false
+      console.log(data.results.length)
+      this.successText = `此次加载共刷新${data.results.length}条数据`
     }
   },
   computed: {
     currentChannel () {
-      console.log(this.channels[this.activeIndex])
       return this.channels[this.activeIndex]
     }
   },
