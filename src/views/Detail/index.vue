@@ -11,17 +11,23 @@
         </div>
         <van-button round size="small" type="info">+ 关注</van-button>
       </div>
+      <!-- 文章内容 -->
       <div class="content" v-html="article.content"></div>
+      <!-- 点赞和喜欢 -->
       <div class="zan">
         <van-button round size="small" hairline type="primary" plain icon="good-job-o">点赞</van-button>&nbsp;&nbsp;&nbsp;&nbsp;
         <van-button round size="small" hairline type="danger" plain icon="delete">不喜欢</van-button>
       </div>
+      <!-- 评论列表 -->
+      <comment-list></comment-list>
     </div>
+
   </div>
 </template>
 
 <script>
 import { getArticle } from '@/api/article'
+import CommentList from './CommentList'
 export default {
   name: 'detail',
   props: ['id'],
@@ -29,6 +35,9 @@ export default {
     return {
       article: null
     }
+  },
+  components: {
+    CommentList
   },
   created () {
     this.getArticle()
