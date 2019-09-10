@@ -18,3 +18,12 @@ export const getArticles = ({
     }
   })
 }
+
+/**
+ * 获取指定文章详情
+ * @param {*} id 指定文章Id
+ */
+
+export const getArticle = (id) => {
+  return request.get(`/app/v1_0/articles/${id}`)
+}

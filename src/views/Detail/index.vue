@@ -1,22 +1,13 @@
 <template>
   <div>
     <!-- 头部导航 -->
-    <van-nav-bar
-      title="文章详情"
-      left-text="返回"
-      fixed
-      left-arrow
-      @click-left="$router.back()"
-    />
-    <div class="article">
+    <van-nav-bar title="文章详情" left-text="返回" fixed left-arrow @click-left="$router.back()" />
+    <div class="article" v-if="article">
       <!-- 文章标题 -->
-      <h2 class="article-title">这是文章的标题</h2>
+      <h2 class="article-title">{{article.title}}</h2>
       <!-- 作者信息 -->
       <!-- 文章内容 -->
-      <div class="article-content">
-        <p>hello world</p>
-        <p>hello world</p>
-        <p>hello world</p>
+      <div class="article-content" v-html="article.content">
       </div>
       <!-- 点赞和取消 -->
     </div>
@@ -24,8 +15,29 @@
 </template>
 
 <script>
+import { getArticle } from '@/api/article'
 export default {
-  name: 'detail'
+  name: 'detail',
+  props: ['id'],
+  data () {
+    return {
+      article: null
+    }
+  },
+  created () {
+    this.getArticle()
+  },
+  methods: {
+    // 获取文章详情
+    async getArticle () {
+      try {
+        const data = await getArticle(this.id)
+        this.article = data
+      } catch (err) {
+        console.log('获取文章详情失败')
+      }
+    }
+  }
 }
 </script>
 
