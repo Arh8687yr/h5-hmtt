@@ -7,7 +7,7 @@
         <van-image round width="2rem" height="2rem" fit="fill" :src="article.aut_photo" />
         <div class="text">
           <p class="name">{{article.aut_name}}</p>
-          <p class="time">{{article.pubdate}}</p>
+          <p class="time">{{article.pubdate | fmtDate}}</p>
         </div>
         <van-button round size="small" type="info">+ 关注</van-button>
       </div>
@@ -55,14 +55,6 @@ export default {
   overflow-y: scroll;
   width: 100%;
   height: 100%;
-}
-.article-loading {
-  padding-top: 60px;
-  text-align: center;
-}
-.error {
-  padding-top: 100px;
-  text-align: center;
 }
 .detail {
   padding: 50px 10px;
