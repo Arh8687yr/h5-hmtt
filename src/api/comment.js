@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 
+// 获取文章评论列表
 export const getComments = ({
   // 是否为文章的评论，若不是，为回复的评论
   isArticle,
@@ -18,5 +19,20 @@ export const getComments = ({
       offset,
       limit
     }
+  })
+}
+
+// 发布评论
+export const sendComments = ({
+  // 评论的目标id(评论文章即为当前浏览文章的id,对评论进行恢复则为评论id)
+  target,
+  // 评论的内容
+  content,
+  art_id
+}) => {
+  return request.poat('/app/v1_0/comments', {
+    target,
+    content,
+    art_id
   })
 }
