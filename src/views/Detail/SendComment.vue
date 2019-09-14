@@ -1,20 +1,32 @@
 <template>
   <div class="add-comment">
     <div class="input-wrap">
-      <input type="text">
+      <input type="text" v-model="content">
     </div>
     <div class="more-wrap">
       <van-icon
+        v-if="!isArticle"
         name="star-o"></van-icon>
       <van-button
-        size="small">发布</van-button>
+        size="small" @click="sendComment">发布</van-button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SendComment'
+  name: 'SendComment',
+  props: ['isArticle', 'target'],
+  data () {
+    return {
+      content: ''
+    }
+  },
+  methods: {
+    sendComment () {
+      // 判断是否登录
+    }
+  }
 }
 </script>
 

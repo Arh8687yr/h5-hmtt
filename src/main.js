@@ -11,6 +11,8 @@ import zhCN from 'vee-validate/dist/locale/zh_CN'
 // 配置UI组件库vant及样式
 import Vant from 'vant'
 import 'vant/lib/index.css'
+// 引入判断是否登录
+import CheckLogin from '@/utils/CheckLogin'
 
 import '../src/style/nav-bar.css'
 
@@ -24,6 +26,8 @@ Vue.use(VeeValidate, {
   // 如果为空的话，文本框输入过程中不验证，需要调用validate方法验证
   events: ''
 })
+// 注册全局组件CheckLogin
+Vue.use(CheckLogin)
 
 Validator.localize('zhCN', zhCN)
 
