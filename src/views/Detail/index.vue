@@ -19,7 +19,9 @@
         <van-button round size="small" hairline type="danger" plain icon="delete">不喜欢</van-button>
       </div>
       <!-- 评论列表 -->
-      <comment-list></comment-list>
+      <comment-list :isArticle="true" :source="article.art_id.toString()"></comment-list>
+      <!-- 发布评论 -->
+      <send-comment></send-comment>
     </div>
 
   </div>
@@ -28,6 +30,7 @@
 <script>
 import { getArticle } from '@/api/article'
 import CommentList from './CommentList'
+import SendComment from './SendComment'
 export default {
   name: 'detail',
   props: ['id'],
@@ -37,7 +40,8 @@ export default {
     }
   },
   components: {
-    CommentList
+    CommentList,
+    SendComment
   },
   created () {
     this.getArticle()

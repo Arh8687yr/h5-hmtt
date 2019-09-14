@@ -10,9 +10,9 @@ export const getComments = ({
   // 获取的评论数据个数
   limit
 }) => {
-  return request.getComments({
+  return request.get('/app/v1_0/comments', {
     params: {
-      // a表示文章的评论，c表示回复的评论
+      // a 文章的评论   c 评论的评论
       type: isArticle ? 'a' : 'c',
       source,
       offset,
