@@ -21,7 +21,7 @@
       <!-- 评论列表 -->
       <comment-list :isArticle="true" :source="article.art_id.toString()"></comment-list>
       <!-- 发布评论 -->
-      <send-comment></send-comment>
+      <send-comment :isArticle="true" :target="article.art_id.toString()"></send-comment>
     </div>
 
   </div>

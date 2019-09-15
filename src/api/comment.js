@@ -30,7 +30,7 @@ export const sendComments = ({
   content,
   art_id
 }) => {
-  return request.poat('/app/v1_0/comments', {
+  return request.post('/app/v1_0/comments', {
     target,
     content,
     art_id
