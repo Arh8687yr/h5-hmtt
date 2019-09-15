@@ -16,7 +16,7 @@
           <p>
             <span>{{item.pubdate | fmtDate}}</span>
             &nbsp;&nbsp;·&nbsp;&nbsp;
-            <span>回复</span>
+            <span @click="reply">回复</span>
           </p>
         </div>
       </van-cell>
@@ -58,6 +58,10 @@ export default {
         this.$toast.fail('获取评论列表失败')
         console.dir(err)
       }
+    },
+    // 回复评论
+    reply () {
+      this.$store.commit('setShowReplyList', true)
     }
   },
   created () {

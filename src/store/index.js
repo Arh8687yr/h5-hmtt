@@ -9,7 +9,10 @@ export default new Vuex.Store({
   state: {
     // token对象
     // 从本地存储取出token对象并传给状态
-    token: localTools.getItem('userinfo')
+    token: localTools.getItem('userinfo'),
+
+    // 控制评论的回复组件是否显示
+    showReplyList: false
   },
   mutations: {
     // 提交mutation是更改状态的唯一方法
@@ -18,6 +21,9 @@ export default new Vuex.Store({
       state.token = token
       // 将修改后的状态存放在本地
       localTools.setItem('userinfo', token)
+    },
+    setShowReplyList (state, isShow) {
+      state.showReplyList = isShow
     }
   },
   actions: {
